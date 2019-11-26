@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menu_title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/primaryColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/register_menubar"
+        android:elevation="2dp"
+        >
+
+        <ImageButton
+            android:id="@+id/return_btn"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_keyboard_arrow_left_24px"
+            android:background="@color/primaryColor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register"
+            android:textColor="@color/primaryTextColor"
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/return_btn"
+            app:layout_constraintBottom_toBottomOf="@id/return_btn"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/register_tv_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Handshake!"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/register_menubar"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/primaryDarkColor"/>
+
+    <EditText
+        android:id="@+id/register_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/register_tv_welcome"
+        app:layout_constraintEnd_toEndOf="@id/register_tv_welcome"
+        app:layout_constraintTop_toBottomOf="@id/register_tv_welcome"
+        android:inputType="text"
+        android:lines="1"
+        android:layout_marginTop="30dp"
+        android:hint="Nickname"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="@id/register_tv_welcome"
+        app:layout_constraintEnd_toEndOf="@id/register_tv_welcome"
+        app:layout_constraintTop_toBottomOf="@id/register_editText"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        app:icon="@drawable/ic_done_24px"/>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
