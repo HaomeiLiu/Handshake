@@ -1,14 +1,11 @@
 package itp341.liu.haomei.finalprojecthaomeiliu;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,7 +16,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
-import java.util.Arrays;
 
 import itp341.liu.haomei.finalprojecthaomeiliu.controller.LoginController;
 import itp341.liu.haomei.finalprojecthaomeiliu.im.BaseActivity;
@@ -41,6 +37,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         initView();
 
+        //Create a callback for facebook API
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager,

@@ -25,32 +25,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="handshake.db"/>
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="itp341.liu.haomei.finalprojecthaomeiliu.database.UserEntry"/>
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="4"/>
+        <service
+            android:name=".im.MyService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
         <activity android:name=".im.UserChatActivity"></activity>
         <activity android:name=".EventActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".HomeActivity"/>
         <activity android:name=".im.BaseActivity" />
         <activity android:name=".im.ChatActivity" />
         <activity android:name=".WelcomeActivity">
-
-            <!--
                 <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".im.TestSearchActivity" />
-
+        <activity android:name=".im.TestSearchActivity"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -71,6 +78,44 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+
+                <category android:name="itp341.liu.haomei.finalprojecthaomeiliu" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver> <!-- Required SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.android.service.AlarmReceiver"
+            android:exported="false" /> <!-- Required since JCore 1.1.7. SDK 核心功能 -->
+        <provider
+            android:name="cn.jpush.android.service.DataProvider"
+            android:authorities="itp341.liu.haomei.finalprojecthaomeiliu.DataProvider"
+            android:exported="false" /> <!-- Required since JMessage 2.7.0 SDK 核心功能 -->
+        <provider
+            android:name="cn.jpush.im.android.helpers.ipc.IMProvider"
+            android:authorities="itp341.liu.haomei.finalprojecthaomeiliu.IMProvider"
+            android:exported="false" /> <!-- Required JMessage SDK核心功能 -->
+        <receiver
+            android:name="cn.jpush.im.android.helpers.IMReceiver"
+            android:enabled="true"
+            android:exported="false">
+
+        </receiver>
     </application>
 
 </manifest>

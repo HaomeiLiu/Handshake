@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.io.File;
 
@@ -22,7 +20,6 @@ import itp341.liu.haomei.finalprojecthaomeiliu.db.UserEntry;
 import itp341.liu.haomei.finalprojecthaomeiliu.im.BaseActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.ThreadUtil;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -45,7 +42,13 @@ public class RegisterActivity extends BaseActivity {
         buttonBack = findViewById(R.id.return_btn);
         SharePreferenceManager.setCachedFixProfileFlag(true);
 
-        buttonDone.setOnClickListener(listener);
+        buttonDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        buttonBack.setOnClickListener(listener);
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {

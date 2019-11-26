@@ -1,14 +1,17 @@
 package itp341.liu.haomei.finalprojecthaomeiliu.controller;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 
 import java.io.File;
 import java.util.regex.Matcher;
@@ -27,9 +30,11 @@ import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.HandleResponseCode;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
+import itp341.liu.haomei.finalprojecthaomeiliu.util.ViewDialog;
 
 public class LoginController implements View.OnClickListener{
     private LoginActivity mContext;
+    private boolean isLogin = true;
     public static final String TAG = LoginController.class.getSimpleName();
 
 
@@ -107,27 +112,22 @@ public class LoginController implements View.OnClickListener{
                     return;
                 }
                 //Login
-                if (JGApplication.registerOrLogin % 2 == 1) {
-                    final Dialog dialog = DialogCreator.createLoadingDialog(mContext,
-                            mContext.getString(R.string.ui_loading_text));
-                    dialog.show();
+                if (isLogin) {
+                    final ViewDialog dialog = new ViewDialog(mContext);
+//                    final Dialog dialog = DialogCreator.createLoadingDialog(mContext,
+//                            mContext.getString(R.string.ui_loading_text));
+                    dialog.showDialog();
                     Log.d(TAG, "After dialog created and shown");
                     JMessageClient.login(userId, password, new BasicCallback() {
                         @Override
                         public void gotResult(int responseCode, String responseMessage) {
-                            dialog.dismiss();
+                            dialog.hideDialog();
                             Log.d(TAG, "Login Result Back");
 
                             if (responseCode == 0) {
                                 SharePreferenceManager.setCachedPsw(password);
                                 UserInfo myInfo = JMessageClient.getMyInfo();
-                                File avatarFile = myInfo.getAvatarFile();
-                                //Successfully log in. If the user set an avatar, save it. Otherwise save as null
-                                if (avatarFile != null) {
-                                    SharePreferenceManager.setCachedAvatarPath(avatarFile.getAbsolutePath());
-                                } else {
-                                    SharePreferenceManager.setCachedAvatarPath(null);
-                                }
+                                //Successfully logged in.
                                 String username = myInfo.getUserName();
                                 String appKey = myInfo.getAppKey();
                                 UserEntry user = UserEntry.getUser(username, appKey);
@@ -139,7 +139,7 @@ public class LoginController implements View.OnClickListener{
                                 ToastUtil.shortToast(mContext, "Login Success");
                                 mContext.finish();
                             } else {
-                                ToastUtil.shortToast(mContext, "Login Failed " + responseMessage);
+                                ToastUtil.shortToast(mContext, "Login Failed. " + responseMessage);
                             }
                         }
                     });
@@ -158,7 +158,7 @@ public class LoginController implements View.OnClickListener{
                                 ToastUtil.shortToast(mContext, "Successfully registered");
                             } else {
                                 Log.d(TAG, "i!=0");
-                                HandleResponseCode.onHandle(mContext, i, false);
+                                //HandleResponseCode.onHandle(mContext, i, false);
                                 ToastUtil.shortToast(mContext, "Register Failed");
                             }
                         }
@@ -167,8 +167,8 @@ public class LoginController implements View.OnClickListener{
                 break;
             case R.id.register_button:
                 mContext.editTextPassword.setText("");
-                JGApplication.registerOrLogin++;
-                if (JGApplication.registerOrLogin % 2 == 0) {
+                isLogin = !isLogin;
+                if (!isLogin) {
                     mContext.buttonLogin.setText("Register");
                     mContext.buttonRegister.setText("Already have an account? Login");
                 } else {
@@ -187,3 +187,4 @@ public class LoginController implements View.OnClickListener{
     }
 
 }
+
