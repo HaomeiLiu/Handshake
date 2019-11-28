@@ -10,6 +10,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            //Add .so library with corresponding cpu 。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "cdcfce685dee3ace4c736eb7",
+                JPUSH_CHANNEL: "developer-default",
+        ]
     }
     buildTypes {
         release {
@@ -29,4 +39,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'cn.jiguang.sdk:jmessage:2.9.0'
+    implementation 'cn.jiguang.sdk:jcore:2.0.0'
+    implementation 'com.facebook.android:facebook-login:5.11.0'
+    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    implementation 'com.facebook.fresco:fresco:0.8.1' //Image management
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0' //Loading animation
+    implementation 'com.google.android.material:material:1.0.0'
+
+
 }

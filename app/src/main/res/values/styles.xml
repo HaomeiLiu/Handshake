@@ -1,11 +1,27 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
+    <style name="RoundButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:color">@color/secondaryColor</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+        <item name="android:elevation">4dp</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
+
+    <style name="BoarderlessButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="strokeWidth">3dp</item>
+    </style>
+
+    <style name="NavigationBar" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="elevation">2dp</item>
+        <item name="enforceTextAppearance">false</item>
+    </style>
 </resources>

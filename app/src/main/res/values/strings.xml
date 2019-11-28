@@ -1,12 +1,23 @@
 <resources>
     <string name="app_name">Final.Project.Haomei.Liu</string>
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+
+    <string name="facebook_app_id">1050240708648609</string>
+    <string name="fb_login_protocol_scheme">fb1050240708648609</string>
+    <string name="prompt_password">password</string>
+    <string name="prompt_email">username</string>
+    <string name="action_sign_in_short">sign in</string>
+    <string name="action_sign_in">sign in</string>
+
+    <string name="ui_loading_text">Loading...</string>
+
+    <string name="sdcard_not_exist_toast">SD Card does not exist</string>
+
+    <!--    bottom navigation-->
+    <string name="home">home</string>
+    <string name="search">search</string>
+    <string name="chat">chat</string>
+    <string name="more">more</string>
+    <string name="me">Profile</string>
+    <string name="history">Past Events</string>
+
 </resources>
