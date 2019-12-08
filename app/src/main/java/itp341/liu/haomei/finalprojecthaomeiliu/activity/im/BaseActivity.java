@@ -1,4 +1,4 @@
-package itp341.liu.haomei.finalprojecthaomeiliu.im;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity.im;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,14 +18,11 @@ import java.io.File;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.event.LoginStateChangeEvent;
 import cn.jpush.im.android.api.model.UserInfo;
-import cn.jpush.im.api.BasicCallback;
-import itp341.liu.haomei.finalprojecthaomeiliu.LoginActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.LoginActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.FileHelper;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
 
-//TODO: Unused
 
 public class BaseActivity extends AppCompatActivity {
 

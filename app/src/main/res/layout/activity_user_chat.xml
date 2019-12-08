@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".im.UserChatActivity">
+    tools:context=".activity.im.UserChatActivity">
     <include
         android:id="@+id/user_chat_menu"
         layout="@layout/menu_title_bar_button"

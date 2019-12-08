@@ -1,8 +1,10 @@
-package itp341.liu.haomei.finalprojecthaomeiliu;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import itp341.liu.haomei.finalprojecthaomeiliu.R;
 
 public class SearchActivity extends AppCompatActivity {
 

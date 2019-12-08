@@ -7,7 +7,7 @@ import com.activeandroid.query.Select;
 
 import java.util.List;
 
-@Table(name = "users", id = "_id")
+@Table(name = "users")
 public class UserEntry extends Model {
 
     @Column(name = "Username")

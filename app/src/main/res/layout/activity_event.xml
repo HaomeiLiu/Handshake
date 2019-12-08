@@ -4,16 +4,12 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include
-        layout="@layout/menu_title_bar"
-        android:id="@+id/event_title"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView
         android:id="@+id/event_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/event_title"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Event Name"
@@ -27,7 +23,9 @@
         app:layout_constraintTop_toBottomOf="@id/event_tv_name"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginVertical="@dimen/activity_vertical_margin"
-        android:layout_marginStart="32dp"/>
+        android:layout_marginStart="32dp"
+        android:src="@drawable/img_add_event_photo"
+        />
     <ImageView
         android:id="@+id/event_icon_time"
         android:layout_width="wrap_content"
@@ -39,6 +37,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         />
     <TextView
+        android:id="@+id/event_tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time"
@@ -59,6 +58,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         />
     <TextView
+        android:id="@+id/event_tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Location"
@@ -79,6 +79,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         />
     <TextView
+        android:id="@+id/event_tv_participants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Participants"
@@ -98,7 +99,7 @@
         android:layout_marginTop="32dp"/>
 
     <TextView
-        android:id="@+id/event_tv_detail"
+        android:id="@+id/event_label_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Detail"
@@ -108,13 +109,15 @@
         android:textSize="25sp"
         />
     <TextView
+        android:id="@+id/event_tv_datail"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        app:layout_constraintTop_toBottomOf="@id/event_tv_detail"
+        app:layout_constraintTop_toBottomOf="@id/event_label_detail"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         />
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/event_button_join"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Join"

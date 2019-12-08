@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.ChatFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/chat_pm_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Messages"
+            android:textSize="25sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/null_conversation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="No conversation at this time"
+            android:textColor="#999999"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/chat_pm_label"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <ListView
+            android:id="@+id/chat_pm_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/chat_pm_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/divider2"
+            tools:listitem="@layout/layout_list_chat"
+            />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="280dp"/>
+        <TextView
+            android:id="@+id/chat_group_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Chatroom"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@id/divider2"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <itp341.liu.haomei.finalprojecthaomeiliu.view.ChatRoomView
+            android:id="@+id/chat_room_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/chat_group_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/chat_group_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/layout_list_chat"
+                    />
+                <TextView
+                    android:id="@+id/null_chatroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You are not in any event chatroom."
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </itp341.liu.haomei.finalprojecthaomeiliu.view.ChatRoomView>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

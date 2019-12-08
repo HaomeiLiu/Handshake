@@ -1,4 +1,4 @@
-package itp341.liu.haomei.finalprojecthaomeiliu.im;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity.im;
 
 import androidx.appcompat.app.AppCompatActivity;
 

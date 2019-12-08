@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AddEventActivity">
+
+    <EditText
+        android:id="@+id/event_editText_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Event Name"
+        android:textSize="30sp"
+        android:layout_marginTop="40dp"
+        />
+
+    <ImageView
+        android:elevation="2dp"
+        android:id="@+id/event_iv"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_add_event_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_editText_name"
+        android:clickable="true"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="64dp"/>
+    <ImageView
+        android:id="@+id/event_icon_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_query_builder_24px"
+        app:layout_constraintTop_toBottomOf="@id/event_iv"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/add_event_editText_time"
+        android:layout_marginStart="64dp"
+        android:layout_marginBottom="16dp"
+        />
+    <EditText
+        android:id="@+id/add_event_editText_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="datetime"
+        android:hint="Time"
+        app:layout_constraintStart_toEndOf="@id/event_icon_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/event_icon_time"
+        app:layout_constraintBottom_toBottomOf="@id/event_icon_time"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/secondaryDarkColor"
+        android:layout_marginEnd="64dp"
+
+        />
+
+    <ImageView
+        android:id="@+id/event_icon_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_navigation_24px"
+        app:layout_constraintBottom_toTopOf="@id/event_icon_participants"
+        app:layout_constraintStart_toStartOf="@+id/event_icon_time"
+        app:layout_constraintTop_toBottomOf="@id/event_icon_time"
+        android:layout_marginVertical="32dp"
+        />
+
+    <EditText
+        android:id="@+id/add_event_editText_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:hint="Location"
+        android:inputType="text"
+        android:textColor="@color/secondaryDarkColor"
+        app:layout_constraintBottom_toBottomOf="@id/event_icon_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/event_icon_location"
+        app:layout_constraintTop_toTopOf="@id/event_icon_location"
+        android:layout_marginEnd="64dp"/>
+
+    <ImageView
+        android:id="@+id/event_icon_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_keyboard_24px"
+        app:layout_constraintStart_toStartOf="@+id/event_icon_time"
+        app:layout_constraintTop_toBottomOf="@id/event_icon_location"
+        android:layout_marginTop="16dp"
+        android:layout_marginVertical="32dp"
+        />
+
+    <EditText
+        android:id="@+id/add_event_editText_key"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:hint="Key words"
+        android:inputType="text"
+        android:textColor="@color/secondaryDarkColor"
+        app:layout_constraintBottom_toBottomOf="@id/event_icon_participants"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/event_icon_participants"
+        app:layout_constraintTop_toTopOf="@id/event_icon_participants"
+        android:layout_marginEnd="64dp"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_event_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
+        style="@style/Widget.MaterialComponents.Button.Icon"
+        app:icon="@drawable/ic_add_24px"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

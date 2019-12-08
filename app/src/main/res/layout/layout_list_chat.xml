@@ -1,20 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+    <TextView
+        android:id="@+id/chatlist_new_msg_number"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/unread_msg_red"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/chatlist_new_group_msg_number"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/unread_msg_red"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:visibility="gone"/>
     <ImageView
+        android:id="@+id/chatlist_iv_head"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:scaleType="centerCrop"
         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:textSize="20sp"
-        android:layout_marginStart="16dp"
-        />
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:elevation="2dp">
+
+       <TextView
+           android:id="@+id/chatlist_tv_username"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Username"
+           android:textSize="20sp"
+           android:layout_marginStart="16dp"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           />
+       <TextView
+           android:id="@+id/chatlist_tv_date"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:gravity="top"
+           android:textColor="#B3B3B3"
+           app:layout_constraintEnd_toEndOf="parent"
+           android:layout_marginEnd="16dp"
+           app:layout_constraintTop_toTopOf="@id/chatlist_tv_username"
+           app:layout_constraintBottom_toBottomOf="@id/chatlist_tv_username"/>
+       <ImageView
+           android:layout_marginTop="2dp"
+           android:id="@+id/chatlist_iv_send_failed"
+           android:layout_width="14dp"
+           android:layout_height="14dp"
+           android:src="@drawable/send_message_failed"
+           android:visibility="gone"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           android:layout_margin="8dp"
+           />
+       <TextView
+           android:id="@+id/chatlist_tv_content"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="3dp"
+           android:layout_marginTop="1.33dp"
+           android:ems="10"
+           android:singleLine="true"
+           android:textColor="#999999"
+           android:textSize="14sp"
+           app:layout_constraintStart_toEndOf="@id/chatlist_iv_send_failed"
+           app:layout_constraintBottom_toBottomOf="parent"
+           android:layout_marginBottom="8dp"/>
+
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </LinearLayout>

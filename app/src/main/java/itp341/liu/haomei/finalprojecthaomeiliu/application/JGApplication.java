@@ -40,7 +40,7 @@ public class JGApplication extends com.activeandroid.app.Application {
     public static Map<Long, Boolean> isAtall = new HashMap<>();
     public static List<Message> forwardMsg = new ArrayList<>();
 
-    public static long registerOrLogin = 1;
+    public static boolean isLogin = true;
     public static final int REQUEST_CODE_TAKE_PHOTO = 4;
     public static final int REQUEST_CODE_SELECT_PICTURE = 6;
     public static final int REQUEST_CODE_CROP_PICTURE = 18;

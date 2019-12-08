@@ -9,7 +9,7 @@ import cn.jpush.im.android.api.event.NotificationClickEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
-import itp341.liu.haomei.finalprojecthaomeiliu.im.ChatActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.ChatActivity;
 
 public class NotificationClickEventReceiver {
     private Context mContext;

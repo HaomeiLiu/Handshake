@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".activity.SearchFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint1"
+        android:layout_width="match_parent"
+        android:layout_height="668dp"
+        android:padding="10dp">
+
+        <ImageButton
+            android:id="@+id/search_icon_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_navigation_24px"
+            android:background="@color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            app:layout_constraintTop_toTopOf="@id/search_editText_location"
+            app:layout_constraintBottom_toBottomOf="@id/search_editText_location"
+            />
+
+
+        <EditText
+            android:id="@+id/search_editText_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Location"
+            android:lines="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/search_icon_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="60dp"
+            android:textColor="@color/secondaryDarkColor"
+            />
+
+        <ImageButton
+            android:id="@+id/search_icon_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_query_builder_24px"
+            android:background="@color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            app:layout_constraintTop_toTopOf="@id/search_editText_time"
+            app:layout_constraintBottom_toBottomOf="@id/search_editText_time"
+            />
+        <EditText
+            android:id="@+id/search_editText_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="datetime"
+            android:hint="Time"
+            android:lines="1"
+            app:layout_constraintTop_toBottomOf="@id/search_editText_location"
+            app:layout_constraintStart_toEndOf="@id/search_icon_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/secondaryDarkColor"
+            />
+
+        <ImageButton
+            android:id="@+id/search_icon_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_24px"
+            android:background="@color/transparent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="32dp"
+            app:layout_constraintTop_toTopOf="@id/search_editText_key"
+            app:layout_constraintBottom_toBottomOf="@id/search_editText_key"
+            />
+        <EditText
+            android:id="@+id/search_editText_key"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Key words"
+            android:lines="1"
+            app:layout_constraintTop_toBottomOf="@id/search_editText_time"
+            app:layout_constraintStart_toEndOf="@id/search_icon_key"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/secondaryDarkColor"
+            />
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_search_24px" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

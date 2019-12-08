@@ -1,4 +1,4 @@
-package itp341.liu.haomei.finalprojecthaomeiliu;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.UserInfo;
+import itp341.liu.haomei.finalprojecthaomeiliu.R;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.HomeActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.LoginActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
     private Context mContext;

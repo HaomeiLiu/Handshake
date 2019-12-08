@@ -1,4 +1,4 @@
-package itp341.liu.haomei.finalprojecthaomeiliu;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity;
 
 import androidx.annotation.Nullable;
 
@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.activeandroid.ActiveAndroid;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -17,8 +18,9 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 
+import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.controller.LoginController;
-import itp341.liu.haomei.finalprojecthaomeiliu.im.BaseActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.BaseActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
 
 public class LoginActivity extends BaseActivity {
@@ -39,6 +41,9 @@ public class LoginActivity extends BaseActivity {
 
         //Create a callback for facebook API
         callbackManager = CallbackManager.Factory.create();
+
+        //initialize activeandroid
+        ActiveAndroid.initialize(this);
 
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {

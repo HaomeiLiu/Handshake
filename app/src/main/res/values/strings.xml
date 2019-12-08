@@ -20,4 +20,16 @@
     <string name="me">Profile</string>
     <string name="history">Past Events</string>
 
+<!--    jmui -->
+    <string name="jmui_time_format_accuracy">yyyy-MM-dd HH:mm:ss </string>
+    <string name="jmui_monday">Mon</string>
+    <string name="jmui_tuesday">Tue</string>
+    <string name="jmui_wednesday">Wed</string>
+    <string name="jmui_thursday">Thu</string>
+    <string name="jmui_friday">Fri</string>
+    <string name="jmui_saturday">Sat</string>
+    <string name="jmui_sunday">Sun</string>
+
+
+
 </resources>

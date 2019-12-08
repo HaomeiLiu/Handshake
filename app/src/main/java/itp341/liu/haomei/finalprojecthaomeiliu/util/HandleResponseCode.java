@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import itp341.liu.haomei.finalprojecthaomeiliu.LoginActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.LoginActivity;
 
 public class HandleResponseCode {
     public static void onHandle(Context context, int status, boolean isCenter){

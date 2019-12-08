@@ -1,32 +1,29 @@
-package itp341.liu.haomei.finalprojecthaomeiliu;
+package itp341.liu.haomei.finalprojecthaomeiliu.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
-import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import java.io.File;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
+import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.db.UserEntry;
-import itp341.liu.haomei.finalprojecthaomeiliu.im.BaseActivity;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.BaseActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
+import itp341.liu.haomei.finalprojecthaomeiliu.util.ViewDialog;
 
 public class RegisterActivity extends BaseActivity {
 
     private EditText editText;
     private Button buttonDone;
     private ImageButton buttonBack;
-    private Dialog dialog;
+    private RegisterActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +39,8 @@ public class RegisterActivity extends BaseActivity {
         buttonBack = findViewById(R.id.return_btn);
         SharePreferenceManager.setCachedFixProfileFlag(true);
 
-        buttonDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
         buttonBack.setOnClickListener(listener);
+        buttonDone.setOnClickListener(listener);
     }
 
     private View.OnClickListener listener = new View.OnClickListener() {
@@ -59,10 +51,8 @@ public class RegisterActivity extends BaseActivity {
                     finish();
                     break;
                 case R.id.register_button:
-                    dialog = DialogCreator.createLoadingDialog(RegisterActivity.this,
-                            "Loading");
-                    dialog.setCancelable(false);
-                    dialog.show();
+                    final ViewDialog dialog = new ViewDialog(mContext);
+                    dialog.showDialog();
 
                     final String userId = SharePreferenceManager.getRegistrName();
                     final String password = SharePreferenceManager.getRegistrPass();
@@ -71,7 +61,9 @@ public class RegisterActivity extends BaseActivity {
                         @Override
                         public void gotResult(int responseCode, String responseMessage) {
                             if (responseCode == 0) {
-                                JGApplication.registerOrLogin = 1;
+                                Log.d("Register Activity", "ResponseCode == 0");
+                                dialog.hideDialog();
+                                JGApplication.isLogin = true;
                                 String username = JMessageClient.getMyInfo().getUserName();
                                 String appKey = JMessageClient.getMyInfo().getAppKey();
                                 UserEntry user = UserEntry.getUser(username, appKey);
@@ -92,7 +84,6 @@ public class RegisterActivity extends BaseActivity {
                                     public void gotResult(final int status, String desc) {
                                         //renew jump sign
                                         SharePreferenceManager.setCachedFixProfileFlag(false);
-                                        dialog.dismiss();
                                         if (status == 0) {
                                             goToActivity(RegisterActivity.this, HomeActivity.class);
                                         }

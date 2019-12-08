@@ -1,40 +1,32 @@
 package itp341.liu.haomei.finalprojecthaomeiliu.controller;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 
-import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
-import itp341.liu.haomei.finalprojecthaomeiliu.HomeActivity;
-import itp341.liu.haomei.finalprojecthaomeiliu.LoginActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.HomeActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.LoginActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
-import itp341.liu.haomei.finalprojecthaomeiliu.RegisterActivity;
-import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.RegisterActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.db.UserEntry;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.HandleResponseCode;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ViewDialog;
 
+import static itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication.isLogin;
+
 public class LoginController implements View.OnClickListener{
     private LoginActivity mContext;
-    private boolean isLogin = true;
     public static final String TAG = LoginController.class.getSimpleName();
 
 
