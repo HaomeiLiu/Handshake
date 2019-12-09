@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.scaledrone.lib.Scaledrone;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -28,17 +30,22 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.RequestCallback;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.ChatRoomMessageEvent;
+import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
+import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.HomeFragment;
 import itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
+import itp341.liu.haomei.finalprojecthaomeiliu.entity.EventType;
 import itp341.liu.haomei.finalprojecthaomeiliu.model.Event;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ViewDialog;
 import itp341.liu.haomei.finalprojecthaomeiliu.view.listview.DropDownListView;
+
+import static itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter.EXTRA_USER_NAME;
 
 public class UserChatActivity extends AppCompatActivity {
     private Activity mContext;
@@ -46,9 +53,11 @@ public class UserChatActivity extends AppCompatActivity {
     private ImageButton buttonSend;
     private static final String TAG = "UserChatActivity";
     private long roomID;
+    private String targetID;
     public ListView listViewMessage;
     private MessageAdapter messageAdapter;
     private static final long TEST_CHAT_ID = 23643144;
+    private boolean isPrivate = false;
 
 
 
@@ -56,7 +65,12 @@ public class UserChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_chat);
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
         mContext = this;
+        JMessageClient.registerEventReceiver(this);
+
 
         messageAdapter = new MessageAdapter(mContext,JMessageClient.getChatRoomConversation(TEST_CHAT_ID));
 
@@ -82,29 +96,63 @@ public class UserChatActivity extends AppCompatActivity {
                 initChatRoom(roomID);
             }
         }
+        else{
+            //Private Chat
+            isPrivate = true;
+            if(intent != null){
+                targetID = intent.getStringExtra(EXTRA_USER_NAME);
+                setTitle(targetID);
+            }
+            else{
+                finish();
+            }
 
+        }
+
+        //Send a message
         buttonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "clicked");
-                Conversation conv = JMessageClient.getChatRoomConversation(roomID);
-                if (null == conv) {
-                    conv = Conversation.createChatRoomConversation(roomID);
-                }
-                String text = editText.getText().toString();
-                final Message msg = conv.createSendTextMessage(text);
-                msg.setOnSendCompleteCallback(new BasicCallback() {
-                    @Override
-                    public void gotResult(int responseCode, String responseMessage) {
-                        if (0 == responseCode) {
-                            messageAdapter.add(msg);
-                        } else {
-                            ToastUtil.shortToast(mContext, "Unable to send at this time");
-                        }
+                if(!isPrivate){
+                    Conversation conv = JMessageClient.getChatRoomConversation(roomID);
+                    if (null == conv) {
+                        conv = Conversation.createChatRoomConversation(roomID);
                     }
-                });
-                JMessageClient.sendMessage(msg);
+                    String text = editText.getText().toString();
+                    final Message msg = conv.createSendTextMessage(text);
+                    msg.setOnSendCompleteCallback(new BasicCallback() {
+                        @Override
+                        public void gotResult(int responseCode, String responseMessage) {
+                            if (0 == responseCode) {
+                                messageAdapter.add(msg);
+                            } else {
+                                ToastUtil.shortToast(mContext, "Unable to send at this time");
+                            }
+                        }
+                    });
+                    JMessageClient.sendMessage(msg);
+                }
+                else{
+                    Conversation conv = JMessageClient.getSingleConversation(targetID);
+                    if (null == conv) {
+                        conv = Conversation.createSingleConversation(targetID);
+                    }
+                    String text = editText.getText().toString();
+                    final Message msg = conv.createSendTextMessage(text);
+                    msg.setOnSendCompleteCallback(new BasicCallback() {
+                        @Override
+                        public void gotResult(int responseCode, String responseMessage) {
+                            if (0 == responseCode) {
+                                messageAdapter.add(msg);
+                            } else {
+                                ToastUtil.shortToast(mContext, "Unable to send at this time");
+                            }
+                        }
+                    });
+                    JMessageClient.sendMessage(msg);
 
+                }
             }
         });
 
@@ -119,25 +167,41 @@ public class UserChatActivity extends AppCompatActivity {
         ChatRoomManager.enterChatRoom(chatRoomId, new RequestCallback<Conversation>() {
             @Override
             public void gotResult(int responseCode, String responseMessage, Conversation conversation) {
-                /*if(responseCode != 0){
+                if(responseCode == 0){
                     //Something unexpected happened
                     dialog.hideDialog();
                     ToastUtil.shortToast(mContext, "Failed to enter the event.");
                     finish();
-                }*/
+                }
                 //Proceed successfully
                 dialog.hideDialog();
                 String result = null != conversation ? conversation.toString() : null;
+                Log.d(TAG, "result: "+result);
 
             }
         });
-
     }
+
+    //Receiver for private chat
+    public void onEvent(MessageEvent event) {
+        final Message msg = event.getMessage();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (msg.getTargetType() == ConversationType.single) {
+                    messageAdapter.add(msg);
+
+                }
+            }
+        });
+    }
+
+    //Receiver for chatroom
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(ChatRoomMessageEvent event) {
         Log.d(TAG, "ChatRoomMessageEvent received .");
         List<Message> msgs = event.getMessages();
         for (Message msg : msgs) {
-            //这个页面仅仅展示聊天室会话的消息
             messageAdapter.add(msg);
         }
     }
@@ -146,6 +210,12 @@ public class UserChatActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp(){
         finish();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        JMessageClient.unRegisterEventReceiver(this);
+        super.onDestroy();
     }
 }
 

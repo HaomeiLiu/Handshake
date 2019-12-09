@@ -15,7 +15,8 @@
         android:scaleType="centerInside"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:src="@drawable/user_blank_avatar"/>
+        android:src="@drawable/user_blank_avatar"
+        android:clickable="true"/>
 
     <TextView
         android:id="@+id/other_massage_name"

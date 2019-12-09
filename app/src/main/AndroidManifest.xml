@@ -25,8 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.AddEventActivity"></activity>
-        <!-- Global Settings for activeandroid -->
+        <activity android:name=".activity.im.UserInfoActivity"></activity>
+        <activity android:name=".activity.AddEventActivity" /> <!-- Global Settings for activeandroid -->
         <meta-data
             android:name="AA_DB_NAME"
             android:value="handshake.db" />
@@ -120,7 +120,7 @@
         <receiver
             android:name="cn.jpush.im.android.helpers.IMReceiver"
             android:enabled="true"
-            android:exported="false"></receiver>
+            android:exported="false" />
     </application>
 
 </manifest>

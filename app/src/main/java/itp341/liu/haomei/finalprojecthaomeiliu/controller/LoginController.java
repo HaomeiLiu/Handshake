@@ -34,15 +34,6 @@ public class LoginController implements View.OnClickListener{
         this.mContext = loginActivity;
     }
 
-    private boolean isContainChinese(String str) {
-        Pattern pattern = Pattern.compile("[\u4e00-\u9fa5]");
-        Matcher matcher = pattern.matcher(str);
-        if (matcher.find()) {
-            return true;
-        }
-        return false;
-    }
-
     private boolean whatStartWith(String str) {
         Pattern pattern = Pattern.compile("^([A-Za-z]|[0-9])");
         Matcher matcher = pattern.matcher(str);
@@ -86,11 +77,6 @@ public class LoginController implements View.OnClickListener{
                 if (password.length() < 4 || password.length() > 128) {
                     mContext.editTextPassword.startAnimation(shakeAnimation(3));
                     ToastUtil.shortToast(mContext, "Password should have length between 4-128 characters");
-                    return;
-                }
-                if (isContainChinese(userId)) {
-                    mContext.editTextUser.startAnimation(shakeAnimation(3));
-                    ToastUtil.shortToast(mContext, "Chinese is not supported");
                     return;
                 }
                 if (!whatStartWith(userId)) {
