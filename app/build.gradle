@@ -60,6 +60,10 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
+//    Butterknife simplifies field and method binding for Android views by annotations.
+    implementation 'com.jakewharton:butterknife:10.2.0'
+    annotationProcessor 'com.jakewharton:butterknife:7.0.1'
+
 
 
 

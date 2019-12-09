@@ -10,7 +10,7 @@ public class ViewDialog {
 
     Activity activity;
     Dialog dialog;
-    //..we need the context else we can not create the dialog so get context in constructor
+
     public ViewDialog(Activity activity) {
         this.activity = activity;
     }

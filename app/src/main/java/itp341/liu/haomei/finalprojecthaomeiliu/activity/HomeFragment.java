@@ -39,7 +39,7 @@ public class HomeFragment extends Fragment {
     public ListView listViewEvent;
     public FloatingActionButton buttonAdd;
     private static final String TAG = "HomeFragment";
-    public static final String EXTRA_EVENT = HomeActivity.class.getPackage().getName() + "tag";
+    public static final String EXTRA_EVENT = HomeActivity.class.getPackage().getName() + "EventObject";
     private static final int REQUEST_CODE_CREATE = 128;
 
 
@@ -163,6 +163,7 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Event event = document.toObject(Event.class);
+                                event.setId(document.getId());
                                 events_holder.add(event);
                                 listViewEvent.setAdapter(eventListAdapter);
                             }

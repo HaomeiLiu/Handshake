@@ -7,6 +7,7 @@ public class Event implements Serializable {
     private String time;
     private String location;
     private String key;
+    private String id;
 
     public Event(String title, String time, String location, String key, int participants) {
         this.title = title;
@@ -14,6 +15,14 @@ public class Event implements Serializable {
         this.location = location;
         this.key = key;
         this.participants = participants;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     private int participants;
