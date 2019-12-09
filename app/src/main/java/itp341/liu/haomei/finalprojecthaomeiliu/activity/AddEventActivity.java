@@ -93,12 +93,7 @@ public class AddEventActivity extends AppCompatActivity {
                             editTextLocation.getText().toString(),
                             editTextKey.getText().toString(),
                     0);
-                    /*Map<String, Object> event = new HashMap<>();
-                    event.put("Title", editTextName.getText().toString());
-                    event.put("Time", editTextTime.getText().toString());
-                    event.put("Location", editTextLocation.getText().toString());
-                    event.put("Key", editTextKey.getText().toString());
-                    event.put("Participants", 0);*/
+
 
                     db.collection("events")
                             .add(event)

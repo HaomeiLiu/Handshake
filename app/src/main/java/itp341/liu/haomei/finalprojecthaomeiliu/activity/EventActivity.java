@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.UUID;
+
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
@@ -28,8 +30,7 @@ public class EventActivity extends AppCompatActivity {
     private TextView textViewLocation;
     private TextView textViewParticipants;
     private TextView textViewDetail;
-    private String EventId;
-    private long EventRoomId;
+    private long EventId;
     private ImageView imageViewEvent;
     private Button buttonJoin;
 
@@ -61,7 +62,7 @@ public class EventActivity extends AppCompatActivity {
 
         EventId = event.getId();
         Log.d(TAG, "Event id "+EventId);
-        EventRoomId = Long.parseLong(EventId, 10);
+
 
         textViewTitle.setText(event.getTitle());
         textViewTime.setText("Time: "+event.getTime());
@@ -73,7 +74,9 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Pass in information and start a chat
-                Conversation.createChatRoomConversation(EventRoomId);
+                int oldPart = event.getParticipants();
+                event.setParticipants(oldPart++);
+                Conversation conv = Conversation.createChatRoomConversation(EventId);
                 Intent intent = new Intent(EventActivity.this, UserChatActivity.class);
                 intent.putExtra(JGApplication.CONV_TYPE, ConversationType.chatroom);
                 intent.putExtra(EXTRA_EVENT, event);

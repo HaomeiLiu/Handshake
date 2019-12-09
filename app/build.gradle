@@ -63,6 +63,8 @@ dependencies {
 //    Butterknife simplifies field and method binding for Android views by annotations.
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.scaledrone:scaledrone-java:0.6.0'
+
 
 
 

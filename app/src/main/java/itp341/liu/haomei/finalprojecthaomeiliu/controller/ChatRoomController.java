@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import cn.jpush.im.android.api.ChatRoomManager;
 import cn.jpush.im.android.api.callback.RequestCallback;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.ChatRoomInfo;
-import itp341.liu.haomei.finalprojecthaomeiliu.activity.ChatActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.adapter.ChatRoomAdapter;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
@@ -60,10 +59,11 @@ public class ChatRoomController implements AdapterView.OnItemClickListener{
         Object itemAtPosition = parent.getItemAtPosition(position);
         if (itemAtPosition != null && itemAtPosition instanceof ChatRoomInfo) {
             ChatRoomInfo info = (ChatRoomInfo) itemAtPosition;
-            Intent intent = new Intent(mContext, ChatActivity.class);
+            Intent intent = new Intent(mContext, UserChatActivity.class);
             intent.putExtra(JGApplication.CONV_TYPE, ConversationType.chatroom);
             intent.putExtra("chatRoomId", info.getRoomID());
             intent.putExtra("chatRoomName", info.getName());
+
             mContext.startActivity(intent);
         }
     }

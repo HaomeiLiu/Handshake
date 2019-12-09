@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.model.Event;
@@ -163,7 +164,7 @@ public class HomeFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 Event event = document.toObject(Event.class);
-                                event.setId(document.getId());
+                                event.setId(UUID.nameUUIDFromBytes(document.getId().getBytes()).getMostSignificantBits());
                                 events_holder.add(event);
                                 listViewEvent.setAdapter(eventListAdapter);
                             }
