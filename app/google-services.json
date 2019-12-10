@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "213647212478",
+    "firebase_url": "https://handshake-4e117.firebaseio.com",
+    "project_id": "handshake-4e117",
+    "storage_bucket": "handshake-4e117.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213647212478:android:84b4215aac810679e383ef",
+        "android_client_info": {
+          "package_name": "itp341.liu.haomei.finalprojecthaomeiliu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213647212478-hliaddbvdviseb4o6s6qnm2a0jupupgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMn3zHiQqNH-c1ppnQqh6zE60x6iGuIfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213647212478-hliaddbvdviseb4o6s6qnm2a0jupupgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
