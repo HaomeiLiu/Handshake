@@ -90,6 +90,7 @@ public class PMListController implements AdapterView.OnItemClickListener{
             Conversation conv = data.get(position);
             String targetId = ((UserInfo) conv.getTargetInfo()).getUserName();
             intent.putExtra(EXTRA_USER_NAME, targetId);
+            intent.putExtra(JGApplication.CONV_TYPE, conv.getType());
             intent.setClass(mContext.getActivity(), UserChatActivity.class);
             mContext.getActivity().startActivityForResult(intent, REQUEST_CODE_PM);
 

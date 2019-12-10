@@ -78,7 +78,6 @@
 
         <activity android:name=".activity.im.UserChatActivity" />
         <activity android:name=".activity.EventActivity" />
-        <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.HomeActivity" />
         <activity android:name=".activity.im.BaseActivity" />

@@ -18,14 +18,11 @@
         android:icon="@drawable/ic_chat_24px"
         />
 
-    <group android:id="@+id/bottom_group">
-        <item android:id="@+id/group_me"
-            android:title="@string/me"
-            />
-        <item android:id="@+id/group_history"
-            android:title="@string/history"
-            />
-    </group>
+    <item
+        android:id="@+id/botton_me"
+        android:title="me"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_face_24px"/>
 
 
 

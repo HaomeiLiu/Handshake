@@ -24,13 +24,14 @@ import itp341.liu.haomei.finalprojecthaomeiliu.R;
 public class HomeActivity extends AppCompatActivity
         implements HomeFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
-        ChatFragment.OnFragmentInteractionListener {
+        ChatFragment.OnFragmentInteractionListener, MeFragment.OnFragmentInteractionListener{
 
     private List<String> permissions;
     private BottomNavigationView bottomBar;
     final private Fragment fragmentHome = new HomeFragment();
     final private Fragment fragmentSearch = new SearchFragment();
     final private Fragment fragmentChat = new ChatFragment();
+    final private Fragment fragmentMe = new MeFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragmentHome;
     public final static String EXTRA_SEARCH_TIME = HomeActivity.class.getPackage().getName()+"extra_time";
@@ -74,8 +75,11 @@ public class HomeActivity extends AppCompatActivity
                         fm.beginTransaction().hide(active).show(fragmentChat).commit();
                         active = fragmentChat;
                         break;
-                    case R.id.bottom_group:
-                        Toast.makeText(HomeActivity.this, "Group", Toast.LENGTH_SHORT).show();
+                    case R.id.botton_me:
+                        Toast.makeText(HomeActivity.this, "Me", Toast.LENGTH_SHORT).show();
+                        fm.beginTransaction().hide(active).show(fragmentMe).commit();
+                        active = fragmentMe;
+
                         break;
                 }
                 return true;
@@ -89,6 +93,8 @@ public class HomeActivity extends AppCompatActivity
                 .hide(fragmentSearch)
                 .add(R.id.home_fragment, fragmentChat, "Chat")
                 .hide(fragmentChat)
+                .add(R.id.home_fragment, fragmentMe, "Me")
+                .hide(fragmentMe)
                 .commit();
     }
 
