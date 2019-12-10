@@ -1,5 +1,6 @@
 package itp341.liu.haomei.finalprojecthaomeiliu.activity.im;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -44,6 +45,7 @@ import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.HomeFragment;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.map.MapActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.entity.EventType;
@@ -60,6 +62,7 @@ public class UserChatActivity extends AppCompatActivity {
     private Activity mContext;
     private EditText editText;
     private ImageButton buttonSend;
+    private ImageButton buttonLocation;
     private static final String TAG = "UserChatActivity";
     private long roomID;
     private String targetID;
@@ -68,6 +71,7 @@ public class UserChatActivity extends AppCompatActivity {
     private static final long TEST_CHAT_ID = 23643144;
     private boolean isPrivate = false;
     private Conversation mConv;
+    public static final int REQUEST_CODE_MAP = 103;
 
 
 
@@ -87,6 +91,7 @@ public class UserChatActivity extends AppCompatActivity {
         editText = findViewById(R.id.user_chat_editText);
         buttonSend = findViewById(R.id.user_chat_button);
         listViewMessage = findViewById(R.id.user_chat_listView);
+        buttonLocation = findViewById(R.id.user_chat_send_location);
         listViewMessage.setAdapter(messageAdapter);
 
         assert getSupportActionBar() != null;   //null check
@@ -96,6 +101,8 @@ public class UserChatActivity extends AppCompatActivity {
         ConversationType conversationType = (ConversationType) getIntent().getSerializableExtra(JGApplication.CONV_TYPE);
         Intent intent = getIntent();
         if(conversationType == ConversationType.chatroom){
+            buttonLocation.setVisibility(View.GONE);
+            buttonLocation.setClickable(false);
             Event event;
             if(intent != null){
                 event = (Event) intent.getSerializableExtra(HomeFragment.EXTRA_EVENT);
@@ -115,6 +122,8 @@ public class UserChatActivity extends AppCompatActivity {
         }
         else{
             //Private Chat
+            buttonLocation.setVisibility(View.VISIBLE);
+            buttonLocation.setClickable(true);
             isPrivate = true;
             if(intent != null){
                 targetID = intent.getStringExtra(EXTRA_USER_NAME);
@@ -122,13 +131,22 @@ public class UserChatActivity extends AppCompatActivity {
                 Conversation conv = JMessageClient.getSingleConversation(targetID);
                 mConv = conv;
                 conv.setUnReadMessageCnt(0);
-                messageAdapter.addMsgListToList(JMessageClient.getSingleConversation(targetID).getMessagesFromNewest(0,10));
+                messageAdapter.addMsgListToList(JMessageClient.getSingleConversation(targetID).getAllMessage());
             }
             else{
                 finish();
             }
 
         }
+
+        buttonLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(UserChatActivity.this, MapActivity.class);
+                intent2.putExtra(EXTRA_USER_NAME, targetID);
+                startActivityForResult(intent2, REQUEST_CODE_MAP);
+            }
+        });
 
         //Send a message
         buttonSend.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +226,7 @@ public class UserChatActivity extends AppCompatActivity {
                 else{
                     mConv = conversation;
                 }
-                messageAdapter.addMsgListToList(conversation.getMessagesFromNewest(0, 10));
+                messageAdapter.addMsgListToList(conversation.getAllMessage());
                 //Proceed successfully
                 dialog.hideDialog();
                 String result = null != conversation ? conversation.toString() : null;
@@ -354,6 +372,32 @@ public class UserChatActivity extends AppCompatActivity {
     protected void onDestroy() {
         JMessageClient.unRegisterEventReceiver(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_MAP){
+            Log.d("UserChatActivity", "Inside request code");
+            String text = "[Location shared to you]";
+            Conversation conv = JMessageClient.getSingleConversation(targetID);
+            if (null == conv) {
+                conv = Conversation.createSingleConversation(targetID);
+            }
+            final Message msg = conv.createSendTextMessage(text);
+            msg.setOnSendCompleteCallback(new BasicCallback() {
+                    @Override
+                    public void gotResult(int responseCode, String responseMessage) {
+                        if (0 == responseCode) {
+                            messageAdapter.add(msg);
+                        } else {
+                            ToastUtil.shortToast(mContext, "Unable to send at this time");
+                        }
+                    }
+            });
+            JMessageClient.sendMessage(msg);
+
+        }
     }
 }
 

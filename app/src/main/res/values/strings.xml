@@ -30,5 +30,11 @@
     <string name="jmui_saturday">Sat</string>
     <string name="jmui_sunday">Sun</string>
 
+    <string name="firebase_path">location</string>
+    <string name="tracking_enabled_notif">Tracking is currently enabled. Tap to cancel.</string>
+    <string name="test_email">test@test.com</string>
+    <string name="test_password">testpassword</string>
+    <string name="title_activity_maps">Map</string>
+
 
 </resources>

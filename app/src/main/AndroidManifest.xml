@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="itp341.liu.haomei.finalprojecthaomeiliu">
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <permission
         android:name="itp341.liu.haomei.finalprojecthaomeiliu.permission.JPUSH_MESSAGE"
@@ -25,7 +31,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.map.MapActivity"></activity>
+        <activity android:name=".activity.SearchResultActivity"></activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".activity.map.MapsActivity"
+            android:label="@string/title_activity_maps" />
+
+        <service
+            android:name=".activity.TrackingService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".activity.map.MapActivity" />
         <activity android:name=".activity.im.UserInfoActivity" />
         <activity android:name=".activity.AddEventActivity" /> <!-- Global Settings for activeandroid -->
         <meta-data
@@ -37,9 +65,6 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="5" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBMNHk9kNWgsA1Wejl2CY45FfoH0D_esoc" />
 
         <service
             android:name=".activity.im.MyService"

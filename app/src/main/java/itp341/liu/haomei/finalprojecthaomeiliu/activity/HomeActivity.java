@@ -33,6 +33,11 @@ public class HomeActivity extends AppCompatActivity
     final private Fragment fragmentChat = new ChatFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = fragmentHome;
+    public final static String EXTRA_SEARCH_TIME = HomeActivity.class.getPackage().getName()+"extra_time";
+    public final static String EXTRA_SEARCH_LOCATION = HomeActivity.class.getPackage().getName()+"extra_location";
+    public final static String EXTRA_SEARCH_KEY = HomeActivity.class.getPackage().getName()+"extra_key";
+
+
 
     @Override
     public void onFragmentInteraction(Uri uri) {

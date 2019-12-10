@@ -29,6 +29,7 @@ import cn.jpush.im.android.api.model.UserInfo;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserInfoActivity;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.map.MapsActivity;
 
 //Message Adapter: adapter for UserChatActivity
 
@@ -41,6 +42,7 @@ public class MessageAdapter extends BaseAdapter {
     public static final String EXTRA_USER_AVATAR = UserChatActivity.class.getPackage().getName() + "UserAvatar";
     public static final String EXTRA_USER_NAME = UserChatActivity.class.getPackage().getName() + "UserName";
     public static final String EXTRA_USER_ID = UserChatActivity.class.getPackage().getName() + "UserID";
+    private ImageView imageView;
 
 
     public MessageAdapter(Context context, Conversation conv) {
@@ -111,6 +113,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.name = convertView.findViewById(R.id.other_massage_name);
             holder.messageBody = convertView.findViewById(R.id.other_message_body);
             convertView.setTag(holder);
+            imageView = convertView.findViewById(R.id.other_message_button);
 
             holder.name.setText(message.getFromUser().getUserName());
             String messageString;
@@ -118,6 +121,17 @@ public class MessageAdapter extends BaseAdapter {
                 JSONObject object = new JSONObject(message.getContent().toJson());
                 messageString = object.getString("text");
                 holder.messageBody.setText(messageString);
+
+                if(messageString.equals("[Location shared to you]")){
+                    imageView.setVisibility(View.VISIBLE);
+                    imageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, MapsActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }            if (!TextUtils.isEmpty(message.getFromUser().getAvatar())) {
@@ -187,7 +201,6 @@ public class MessageAdapter extends BaseAdapter {
         }
         notifyDataSetChanged();
     }
-
 
 
 }

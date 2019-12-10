@@ -41,4 +41,14 @@
         android:textSize="18dp"
         android:text="How are you doing? This is a long message that should probably wrap."
         />
+
+    <ImageButton
+        android:id="@+id/other_message_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/other_message_body"
+        android:layout_alignRight="@id/other_message_body"
+        android:layout_marginRight="-37dp"
+        android:background="@drawable/ic_my_location_black_24dp"
+        android:visibility="invisible" />
 </RelativeLayout>
