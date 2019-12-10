@@ -14,6 +14,7 @@ import cn.jpush.im.android.api.ChatRoomManager;
 import cn.jpush.im.android.api.callback.RequestCallback;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.ChatRoomInfo;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.HomeActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.adapter.ChatRoomAdapter;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
@@ -27,6 +28,8 @@ public class ChatRoomController implements AdapterView.OnItemClickListener{
     private static final int PAGE_COUNT = 15;
     private List<ChatRoomInfo> chatRoomInfos = new ArrayList<>();
     private ChatRoomAdapter chatRoomAdapter;
+    public static final String EXTRA_CHAT_ID = HomeActivity.class.getPackage().getName() + "ChatRoomID";
+    public static final String EXTRA_CHAT_NAME = HomeActivity.class.getPackage().getName() + "ChatRoomName";
 
     public ChatRoomController(ChatRoomView chatRoomView, Context context) {
         this.mChatRoomView = chatRoomView;
@@ -61,12 +64,14 @@ public class ChatRoomController implements AdapterView.OnItemClickListener{
             ChatRoomInfo info = (ChatRoomInfo) itemAtPosition;
             Intent intent = new Intent(mContext, UserChatActivity.class);
             intent.putExtra(JGApplication.CONV_TYPE, ConversationType.chatroom);
-            intent.putExtra("chatRoomId", info.getRoomID());
-            intent.putExtra("chatRoomName", info.getName());
+            intent.putExtra(EXTRA_CHAT_ID, info.getRoomID());
+            intent.putExtra(EXTRA_CHAT_NAME, info.getName());
 
             mContext.startActivity(intent);
         }
     }
+
+    public ChatRoomAdapter getChatRoomAdapter(){return chatRoomAdapter;}
 
 
 }

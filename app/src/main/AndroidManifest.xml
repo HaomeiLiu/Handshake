@@ -25,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.im.UserInfoActivity"></activity>
+        <activity android:name=".activity.map.MapActivity"></activity>
+        <activity android:name=".activity.im.UserInfoActivity" />
         <activity android:name=".activity.AddEventActivity" /> <!-- Global Settings for activeandroid -->
         <meta-data
             android:name="AA_DB_NAME"
@@ -36,6 +37,9 @@
         <meta-data
             android:name="AA_DB_VERSION"
             android:value="5" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBMNHk9kNWgsA1Wejl2CY45FfoH0D_esoc" />
 
         <service
             android:name=".activity.im.MyService"

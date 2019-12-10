@@ -20,7 +20,7 @@
         android:id="@+id/chatlist_new_group_msg_number"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/unread_msg_red"
         android:gravity="center"

@@ -17,10 +17,7 @@ import cn.jpush.im.android.api.callback.GetAvatarBitmapCallback;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
-import itp341.liu.haomei.finalprojecthaomeiliu.activity.ChatActivity;
-import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
-import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 
 import static itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter.EXTRA_USER_AVATAR;
 import static itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter.EXTRA_USER_NAME;
@@ -44,6 +41,7 @@ public class UserInfoActivity extends AppCompatActivity {
             Log.d("UserInfoActivity", "EXTRA_USER_NAME"+intent.getStringExtra(EXTRA_USER_NAME));
             Log.d("UserInfoActivity", "Key"+SharePreferenceManager.getCachedAppKey());
 
+            //Preferred way, but not working
             /*JMessageClient.getUserInfo(intent.getStringExtra(EXTRA_USER_NAME), new GetUserInfoCallback() {
                 @Override
                 public void gotResult(int i, String s, UserInfo userInfo) {

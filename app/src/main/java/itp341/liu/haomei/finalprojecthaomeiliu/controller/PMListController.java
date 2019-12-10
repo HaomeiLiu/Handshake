@@ -17,11 +17,14 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.ChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.ChatFragment;
+import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.adapter.PMListAdapter;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SortConvList;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SortTopConvList;
 import itp341.liu.haomei.finalprojecthaomeiliu.view.ChatListView;
+
+import static itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter.EXTRA_USER_NAME;
 
 public class PMListController implements AdapterView.OnItemClickListener{
 
@@ -31,6 +34,7 @@ public class PMListController implements AdapterView.OnItemClickListener{
     private List<Conversation> data = new ArrayList<Conversation>();
     private Dialog dialog;
     private int width;
+    private static final int REQUEST_CODE_PM = 101;
 
     public PMListController(ChatListView chatListView, ChatFragment context){
         this.chatListView = chatListView;
@@ -52,7 +56,7 @@ public class PMListController implements AdapterView.OnItemClickListener{
             SortConvList sortConvList = new SortConvList();
             Collections.sort(data, sortConvList);
             for (Conversation con : data) {
-                //如果会话有聊天室会话就把这会话删除
+                //If the conversation already exists, delete it
                 if (con.getTargetId().equals("feedback_Android") || con.getType().equals(ConversationType.chatroom)) {
                     delFeedBack.add(con);
                 }
@@ -81,27 +85,13 @@ public class PMListController implements AdapterView.OnItemClickListener{
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //点击会话条目
         Intent intent = new Intent();
-        if (position > 0) {
-            //这里-3是减掉添加的三个headView
-            Conversation conv = data.get(position - 3);
-            intent.putExtra(JGApplication.CONV_TITLE, conv.getTitle());
-            //群聊
-            if (conv.getType() == ConversationType.group) {
-                long groupId = ((GroupInfo) conv.getTargetInfo()).getGroupID();
-                intent.putExtra(JGApplication.GROUP_ID, groupId);
-                intent.setClass(mContext.getActivity(), ChatActivity.class);
-                mContext.getActivity().startActivity(intent);
-                return;
-                //单聊
-            } else if (conv.getType() == ConversationType.single) {
-                String targetId = ((UserInfo) conv.getTargetInfo()).getUserName();
-                intent.putExtra(JGApplication.TARGET_ID, targetId);
-                intent.putExtra(JGApplication.TARGET_APP_KEY, conv.getTargetAppKey());
-            }
-            intent.setClass(mContext.getActivity(), ChatActivity.class);
-            mContext.getContext().startActivity(intent);
+        if (position >= 0) {
+            Conversation conv = data.get(position);
+            String targetId = ((UserInfo) conv.getTargetInfo()).getUserName();
+            intent.putExtra(EXTRA_USER_NAME, targetId);
+            intent.setClass(mContext.getActivity(), UserChatActivity.class);
+            mContext.getActivity().startActivityForResult(intent, REQUEST_CODE_PM);
 
         }
     }

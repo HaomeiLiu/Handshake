@@ -14,6 +14,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,8 @@ import cn.jpush.im.android.api.model.UserInfo;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserInfoActivity;
+
+//Message Adapter: adapter for UserChatActivity
 
 public class MessageAdapter extends BaseAdapter {
     List<Message> messages = new ArrayList<>();
@@ -92,7 +97,14 @@ public class MessageAdapter extends BaseAdapter {
             convertView = messageInflater.inflate(R.layout.my_message, null);
             holder.messageBody = convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
-            holder.messageBody.setText(message.getContent().toJson());
+            String messageString;
+            try {
+                JSONObject object = new JSONObject(message.getContent().toJson());
+                messageString = object.getString("text");
+                holder.messageBody.setText(messageString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         } else { // this message was sent by someone else so let's create an advanced chat bubble on the left
             convertView = messageInflater.inflate(R.layout.other_message, null);
             holder.avatar = convertView.findViewById(R.id.other_message_avatar);
@@ -101,8 +113,14 @@ public class MessageAdapter extends BaseAdapter {
             convertView.setTag(holder);
 
             holder.name.setText(message.getFromUser().getUserName());
-            holder.messageBody.setText(message.getContent().toString());
-            if (!TextUtils.isEmpty(message.getFromUser().getAvatar())) {
+            String messageString;
+            try {
+                JSONObject object = new JSONObject(message.getContent().toJson());
+                messageString = object.getString("text");
+                holder.messageBody.setText(messageString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }            if (!TextUtils.isEmpty(message.getFromUser().getAvatar())) {
                 message.getFromUser().getAvatarBitmap(new GetAvatarBitmapCallback() {
                     @Override
                     public void gotResult(int status, String desc, Bitmap bitmap) {
@@ -135,6 +153,41 @@ public class MessageAdapter extends BaseAdapter {
         public TextView name;
         public TextView messageBody;
     }
+
+    List<Message> del = new ArrayList<>();
+
+    public void removeMessage(Message message) {
+        for (Message msg : messages) {
+            if (msg.getServerMessageId().equals(message.getServerMessageId())) {
+                del.add(msg);
+            }
+        }
+        messages.removeAll(del);
+        notifyDataSetChanged();
+    }
+
+    public void addMsgListToList(List<Message> singleOfflineMsgList) {
+        messages.addAll(singleOfflineMsgList);
+        notifyDataSetChanged();
+    }
+
+    public Message getLastMsg() {
+        if (messages.size() > 0) {
+            return messages.get(messages.size() - 1);
+        } else {
+            return null;
+        }
+    }
+
+    public void setUpdateReceiptCount(long serverMsgId, int unReceiptCnt) {
+        for (Message message : messages) {
+            if (message.getServerMessageId() == serverMsgId) {
+                message.setUnreceiptCnt(unReceiptCnt);
+            }
+        }
+        notifyDataSetChanged();
+    }
+
 
 
 }

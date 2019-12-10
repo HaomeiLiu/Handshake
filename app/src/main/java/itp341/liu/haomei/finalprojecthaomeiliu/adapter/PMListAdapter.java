@@ -60,7 +60,7 @@ public class PMListAdapter extends BaseAdapter {
 
     /**
      * Put the message on top when received a message
-     *
+     * Referenced from JChat App
      * @param conv conversation to be put at top
      */
     public void setToTop(Conversation conv) {
@@ -73,45 +73,34 @@ public class PMListAdapter extends BaseAdapter {
             }
         });
 
-        //If conversation is old
+        //If conversation is old, compare the conversation with other
         for (Conversation conversation : data) {
             if (conv.getId().equals(conversation.getId())) {
-                //如果是置顶的,就直接把消息插入,会话在list中的顺序不变
-                if (!TextUtils.isEmpty(conv.getExtra())) {
-                    mUIHandler.sendEmptyMessageDelayed(REFRESH_CONVERSATION_LIST, 200);
-                    //这里一定要return掉,要不还会走到for循环之后的方法,就会再次添加会话
-                    return;
-                    //如果不是置顶的,就在集合中把原来的那条消息移出,然后去掉置顶的消息数量,插入到集合中
-                } else {
-                    //因为后面要改变排序位置,这里要删除
-                    data.remove(conversation);
-                    //这里要排序,因为第一次登录有漫游消息.离线消息(其中群组变化也是用这个事件下发的);所以有可能会话的最后一条消息
-                    //时间比较早,但是事件下发比较晚,这就导致乱序.所以要重新排序.
-
-                    //排序规则,每一个进来的会话去和倒叙list中的会话比较时间,如果进来的会话的最后一条消息就是最早创建的
-                    //那么这个会话自然就是最后一个.所以直接跳出循环,否则就一个个向前比较.
-                    for (int i = data.size(); i > SharePreferenceManager.getCancelTopSize(); i--) {
-                        if (conv.getLatestMessage() != null && data.get(i - 1).getLatestMessage() != null) {
-                            if (conv.getLatestMessage().getCreateTime() > data.get(i - 1).getLatestMessage().getCreateTime()) {
-                                oldCount = i - 1;
-                            } else {
-                                oldCount = i;
-                                break;
-                            }
+                //Remove before rearrangement
+                data.remove(conversation);
+                //Rearrangement
+                //Rule: compare each conversation's incoming time with other conversation.
+                for (int i = data.size(); i > SharePreferenceManager.getCancelTopSize(); i--) {
+                    if (conv.getLatestMessage() != null && data.get(i - 1).getLatestMessage() != null) {
+                        if (conv.getLatestMessage().getCreateTime() > data.get(i - 1).getLatestMessage().getCreateTime()) {
+                            oldCount = i - 1;
                         } else {
                             oldCount = i;
+                            break;
                         }
+                    } else {
+                        oldCount = i;
                     }
-                    data.add(oldCount, conv);
-                    mUIHandler.sendEmptyMessageDelayed(REFRESH_CONVERSATION_LIST, 200);
-                    return;
                 }
+                data.add(oldCount, conv);
+                mUIHandler.sendEmptyMessageDelayed(REFRESH_CONVERSATION_LIST, 200);
+                return;
             }
         }
         if (data.size() == 0) {
             data.add(conv);
         } else {
-            //如果是新的会话,直接去掉置顶的消息数之后就插入到list中
+            //If it is a new conversation, put it on top
             for (int i = data.size(); i > SharePreferenceManager.getCancelTopSize(); i--) {
                 if (conv.getLatestMessage() != null && data.get(i - 1).getLatestMessage() != null) {
                     if (conv.getLatestMessage().getCreateTime() > data.get(i - 1).getLatestMessage().getCreateTime()) {
@@ -129,58 +118,6 @@ public class PMListAdapter extends BaseAdapter {
         mUIHandler.sendEmptyMessageDelayed(REFRESH_CONVERSATION_LIST, 200);
     }
 
-    //置顶会话
-    public void setConvTop(Conversation conversation) {
-        int count = 0;
-        //遍历原有的会话,得到有几个会话是置顶的
-        for (Conversation conv : data) {
-            if (!TextUtils.isEmpty(conv.getExtra())) {
-                count++;
-            }
-        }
-        conversation.updateConversationExtra(count + "");
-        data.remove(conversation);
-        data.add(count, conversation);
-        mUIHandler.removeMessages(REFRESH_CONVERSATION_LIST);
-        mUIHandler.sendEmptyMessageDelayed(REFRESH_CONVERSATION_LIST, 200);
-
-    }
-
-    //取消会话置顶
-    public void setCancelConvTop(Conversation conversation) {
-        forCurrent.clear();
-        topConv.clear();
-        int i = 0;
-        for (Conversation oldConv : data) {
-            //在原来的会话中找到取消置顶的这个,添加到待删除中
-            if (oldConv.getId().equals(conversation.getId())) {
-                oldConv.updateConversationExtra("");
-                break;
-            }
-        }
-        //全部会话排序
-        SortConvList sortConvList = new SortConvList();
-        Collections.sort(data, sortConvList);
-
-        //遍历会话找到原来设置置顶的
-        for (Conversation con : data) {
-            if (!TextUtils.isEmpty(con.getExtra())) {
-                forCurrent.add(con);
-            }
-        }
-        topConv.addAll(forCurrent);
-        SharePreferenceManager.setCancelTopSize(topConv.size());
-        data.removeAll(forCurrent);
-        if (topConv != null && topConv.size() > 0) {
-            SortTopConvList top = new SortTopConvList();
-            Collections.sort(topConv, top);
-            for (Conversation conv : topConv) {
-                data.add(i, conv);
-                i++;
-            }
-        }
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {
@@ -232,22 +169,12 @@ public class PMListAdapter extends BaseAdapter {
 
             MessageContent msgContent = lastMsg.getContent();
             Boolean isRead = msgContent.getBooleanExtra("isRead");
-            long gid = 0;
-            if (convItem.getType().equals(ConversationType.group)) {
-                gid = Long.parseLong(convItem.getTargetId());
-            }
 
-            if (lastMsg.getTargetType().equals(ConversationType.single) &&
-                    lastMsg.getDirect().equals(MessageDirect.send) &&
-                    !lastMsg.getContentType().equals(ContentType.prompt) &&
-                    !((UserInfo) lastMsg.getTargetInfo()).getUserName().equals(JMessageClient.getMyInfo().getUserName())) {
-                content = "[Unread]" + content;
-            }
             textViewContent.setText(content);
         }
         else{
             if (convItem.getLastMsgDate() == 0) {
-                //会话列表时间展示的是最后一条会话,那么如果最后一条消息是空的话就不显示
+                //Show last message
                 textViewDate.setText("");
                 textViewContent.setText("");
             } else {
@@ -259,7 +186,10 @@ public class PMListAdapter extends BaseAdapter {
 
         //Set chat name and icon
         if (convItem.getType().equals(ConversationType.single)) {
-            textViewNewGroupNum.setText(convItem.getTitle());
+            if(convItem.getUnReadMsgCnt() == 0){
+                textViewNewMesNum.setVisibility(View.GONE);
+            }
+            textViewConName.setText(convItem.getTitle());
             mUserInfo = (UserInfo) convItem.getTargetInfo();
             if (mUserInfo != null) {
                 mUserInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
@@ -276,24 +206,6 @@ public class PMListAdapter extends BaseAdapter {
                 imageViewAvatar.setImageResource(R.drawable.user_blank_avatar);
             }
         }
-        else if (convItem.getType().equals(ConversationType.group)) {
-            mGroupInfo = (GroupInfo) convItem.getTargetInfo();
-            if (mGroupInfo != null) {
-                mGroupInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
-                    @Override
-                    public void gotResult(int i, String s, Bitmap bitmap) {
-                        if (i == 0) {
-                            imageViewAvatar.setImageBitmap(bitmap);
-                        }
-                        else {
-                            imageViewAvatar.setImageResource(R.drawable.blank_group_icon);
-                        }
-                    }
-                });
-            }
-            textViewConName.setText(convItem.getTitle());
-        }
-
 
 
 //Set new message count and visibility
@@ -307,19 +219,8 @@ public class PMListAdapter extends BaseAdapter {
                 } else {
                     textViewNewMesNum.setText("99+");
                 }
-            } else {
-                textViewNewGroupNum.setVisibility(View.VISIBLE);
-
-                if (convItem.getUnReadMsgCnt() < 100) {
-                    textViewNewGroupNum.setText(String.valueOf(convItem.getUnReadMsgCnt()));
-                } else {
-                    textViewNewGroupNum.setText("99+");
-                }
             }
 
-        } else {
-            textViewNewGroupNum.setVisibility(View.GONE);
-            textViewNewMesNum.setVisibility(View.GONE);
         }
         return convertView;
 
