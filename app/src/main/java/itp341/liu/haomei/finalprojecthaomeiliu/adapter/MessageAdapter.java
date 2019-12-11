@@ -49,20 +49,22 @@ public class MessageAdapter extends BaseAdapter {
         this.mContext = context;
         this.conversation = conv;
 
-        if (conv.getType() == ConversationType.single) {
-            UserInfo userInfo = (UserInfo) conv.getTargetInfo();
-            if (!TextUtils.isEmpty(userInfo.getAvatar())) {
-                userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
-                    @Override
-                    public void gotResult(int status, String desc, Bitmap bitmap) {
-                        if (status == 0) {
-                            notifyDataSetChanged();
+        if(conv != null){
+            if (conv.getType() == ConversationType.single) {
+                UserInfo userInfo = (UserInfo) conv.getTargetInfo();
+                if (!TextUtils.isEmpty(userInfo.getAvatar())) {
+                    userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+                        @Override
+                        public void gotResult(int status, String desc, Bitmap bitmap) {
+                            if (status == 0) {
+                                notifyDataSetChanged();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            } else{
+                isChatRoom = true;
             }
-        } else{
-            isChatRoom = true;
         }
     }
 

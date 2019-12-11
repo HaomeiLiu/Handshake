@@ -85,21 +85,19 @@ public class UserChatActivity extends AppCompatActivity {
         mContext = this;
         JMessageClient.registerEventReceiver(this);
 
-
-        messageAdapter = new MessageAdapter(mContext,JMessageClient.getChatRoomConversation(TEST_CHAT_ID));
-
         editText = findViewById(R.id.user_chat_editText);
         buttonSend = findViewById(R.id.user_chat_button);
         listViewMessage = findViewById(R.id.user_chat_listView);
         buttonLocation = findViewById(R.id.user_chat_send_location);
-        listViewMessage.setAdapter(messageAdapter);
 
         assert getSupportActionBar() != null;   //null check
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
 
+
         //For Event Chat
         ConversationType conversationType = (ConversationType) getIntent().getSerializableExtra(JGApplication.CONV_TYPE);
         Intent intent = getIntent();
+
         if(conversationType == ConversationType.chatroom){
             buttonLocation.setVisibility(View.GONE);
             buttonLocation.setClickable(false);
@@ -111,12 +109,15 @@ public class UserChatActivity extends AppCompatActivity {
                     setTitle(event.getTitle());
                     roomID = TEST_CHAT_ID;
                     initChatRoom(roomID);
+                    messageAdapter = new MessageAdapter(mContext,JMessageClient.getChatRoomConversation(TEST_CHAT_ID));
                 }
                 else{
                     //The intent is from ChatFragment->ChatRoomController, which passes in chatRoomId and chatRoomName
                     setTitle(intent.getStringExtra(EXTRA_CHAT_NAME));
                     roomID = intent.getLongExtra(EXTRA_CHAT_ID, -1);
+                    messageAdapter = new MessageAdapter(mContext,JMessageClient.getChatRoomConversation(TEST_CHAT_ID));
                 }
+                listViewMessage.setAdapter(messageAdapter);
 
             }
         }
@@ -130,8 +131,14 @@ public class UserChatActivity extends AppCompatActivity {
                 setTitle(targetID);
                 Conversation conv = JMessageClient.getSingleConversation(targetID);
                 mConv = conv;
-                conv.setUnReadMessageCnt(0);
-                messageAdapter.addMsgListToList(JMessageClient.getSingleConversation(targetID).getAllMessage());
+                if(conv != null){
+                    conv.setUnReadMessageCnt(0);
+                }
+                messageAdapter = new MessageAdapter(mContext,JMessageClient.getSingleConversation(targetID));
+                listViewMessage.setAdapter(messageAdapter);
+                if(JMessageClient.getSingleConversation(targetID) != null){
+                    messageAdapter.addMsgListToList(JMessageClient.getSingleConversation(targetID).getAllMessage());
+                }
             }
             else{
                 finish();
@@ -226,7 +233,7 @@ public class UserChatActivity extends AppCompatActivity {
                 else{
                     mConv = conversation;
                 }
-                messageAdapter.addMsgListToList(conversation.getAllMessage());
+                messageAdapter.addMsgListToList(mConv.getAllMessage());
                 //Proceed successfully
                 dialog.hideDialog();
                 String result = null != conversation ? conversation.toString() : null;
@@ -320,25 +327,28 @@ public class UserChatActivity extends AppCompatActivity {
         finish();
         JMessageClient.exitConversation();
         JGApplication.delConversation = null;
-        if (mConv.getAllMessage() == null || mConv.getAllMessage().size() == 0) {
-            if (isPrivate) {
-                JMessageClient.deleteSingleConversation(targetID);
-            }
-            JGApplication.delConversation = mConv;
-            if(!isPrivate){
-                ChatRoomManager.leaveChatRoom(roomID, new BasicCallback() {
-                    @Override
-                    public void gotResult(int i, String s) {
-                        UserChatActivity.this.finish();
-                        UserChatActivity.super.onBackPressed();
-                    }
-                });
-            }
-            else{
-                finish();
-                super.onBackPressed();
+        if(mConv != null){
+            if (mConv.getAllMessage() == null || mConv.getAllMessage().size() == 0) {
+                if (isPrivate) {
+                    JMessageClient.deleteSingleConversation(targetID);
+                }
+                JGApplication.delConversation = mConv;
+                if(!isPrivate){
+                    ChatRoomManager.leaveChatRoom(roomID, new BasicCallback() {
+                        @Override
+                        public void gotResult(int i, String s) {
+                            UserChatActivity.this.finish();
+                            UserChatActivity.super.onBackPressed();
+                        }
+                    });
+                }
+                else{
+                    finish();
+                    super.onBackPressed();
+                }
             }
         }
+
         return true;
     }
 

@@ -21,7 +21,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
+import itp341.liu.haomei.finalprojecthaomeiliu.model.MyLocation;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.DialogCreator;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 
@@ -37,7 +41,7 @@ public class MapActivity extends AppCompatActivity {
     private static final String TAG = "MapActivity";
     private Context mContext;
     private String targetID;
-    private boolean isSucess = false;
+    private boolean isSuccess = false;
 
 
     @Override
@@ -66,7 +70,7 @@ public class MapActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST);
         }
-        if(isSucess){
+        if(isSuccess){
             setResult(RESULT_OK);
         }
         finish();
@@ -100,14 +104,16 @@ public class MapActivity extends AppCompatActivity {
                         if (location != null) {
                             // Firebase to upload
                             final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            MyLocation loc = new MyLocation(location.getLongitude(), location.getLatitude());
+
                             db.collection("location").document(targetID)
-                                    .set(location)
+                                    .set(loc)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Log.d(TAG, "DocumentSnapshot successfully written!");
                                             ToastUtil.shortToast(mContext, "Your location has been sent.");
-                                            isSucess = true;
+                                            isSuccess = true;
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {

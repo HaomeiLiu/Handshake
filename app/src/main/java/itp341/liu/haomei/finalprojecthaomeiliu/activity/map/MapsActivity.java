@@ -24,6 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import cn.jpush.im.android.api.JMessageClient;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
+import itp341.liu.haomei.finalprojecthaomeiliu.model.MyLocation;
+import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 
 import static itp341.liu.haomei.finalprojecthaomeiliu.adapter.MessageAdapter.EXTRA_USER_NAME;
 
@@ -31,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private String myID;
-    private Location location;
+    private MyLocation location;
     private final static String TAG = "MapsActivity";
 
 
@@ -70,20 +72,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        location = document.toObject(Location.class);
+                        location = document.toObject(MyLocation.class);
+                        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in Sydney"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
                     } else {
                         Log.d(TAG, "No such document");
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
+                    ToastUtil.shortToast(MapsActivity.this, "Problem loading the location.");
                 }
             }
         });
 
 
-        // Add a marker in Sydney and move the camera
-        LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
     }
 }

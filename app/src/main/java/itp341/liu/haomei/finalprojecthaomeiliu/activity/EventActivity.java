@@ -10,10 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.UUID;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.RequestCallback;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.GroupMemberInfo;
 import itp341.liu.haomei.finalprojecthaomeiliu.R;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.UserChatActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
@@ -33,6 +37,7 @@ public class EventActivity extends AppCompatActivity {
     private long EventId;
     private ImageView imageViewEvent;
     private Button buttonJoin;
+    private static final long TEST_CHAT_ID = 23643144;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +79,17 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Pass in information and start a chat
-                int oldPart = event.getParticipants();
-                event.setParticipants(oldPart++);
-                Conversation conv = Conversation.createChatRoomConversation(EventId);
+//                int oldPart = event.getParticipants();
+//                event.setParticipants(oldPart++);
+                Conversation conv = Conversation.createChatRoomConversation(TEST_CHAT_ID);
+                JMessageClient.getGroupMembers(TEST_CHAT_ID, new RequestCallback<List<GroupMemberInfo>>() {
+                    @Override
+                    public void gotResult(int i, String s, List<GroupMemberInfo> groupMemberInfos) {
+                        if(groupMemberInfos != null){
+                            event.setParticipants(groupMemberInfos.size());
+                        }
+                    }
+                });
                 Intent intent = new Intent(EventActivity.this, UserChatActivity.class);
                 intent.putExtra(JGApplication.CONV_TYPE, ConversationType.chatroom);
                 intent.putExtra(EXTRA_EVENT, event);

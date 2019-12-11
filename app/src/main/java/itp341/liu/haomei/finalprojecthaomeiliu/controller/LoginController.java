@@ -57,8 +57,8 @@ public class LoginController implements View.OnClickListener{
         switch (v.getId()) {
             case R.id.login:
                 //Login Authentication
-                final String userId = mContext.getUserId();
-                final String password = mContext.getPassword();
+                final String userId = mContext.editTextUser.getText().toString();
+                final String password = mContext.editTextPassword.getText().toString();
                 if (TextUtils.isEmpty(userId)) {
                     ToastUtil.shortToast(mContext, "Username cannot be empty");
                     mContext.editTextUser.startAnimation(shakeAnimation(3));
@@ -132,8 +132,8 @@ public class LoginController implements View.OnClickListener{
                                 Log.d(TAG, "i=0");
                                 SharePreferenceManager.setRegisterName(userId);
                                 SharePreferenceManager.setRegistePass(password);
-                                mContext.startActivity(new Intent(mContext, RegisterActivity.class));
-                                ToastUtil.shortToast(mContext, "Successfully registered");
+                                //mContext.startActivity(new Intent(mContext, RegisterActivity.class));
+                                ToastUtil.shortToast(mContext, "Successfully registered! Now please login!");
                             } else {
                                 Log.d(TAG, "i!=0");
                                 //HandleResponseCode.onHandle(mContext, i, false);

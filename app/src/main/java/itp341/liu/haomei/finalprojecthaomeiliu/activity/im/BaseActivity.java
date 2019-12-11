@@ -53,38 +53,6 @@ public class BaseActivity extends AppCompatActivity {
         mAvatarSize = (int) (50 * mDensity);
     }
 
-    //初始化各个activity的title
-    public void initTitle(boolean returnBtn, boolean titleLeftDesc, String titleLeft, String title, boolean save, String desc) {
-        menu_return_button =  findViewById(R.id.return_btn);
-        menu_title_textview = findViewById(R.id.title);
-
-        if (returnBtn) {
-            menu_return_button.setVisibility(View.VISIBLE);
-            menu_return_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm.isActive() && getCurrentFocus() != null) {
-                        if (getCurrentFocus().getWindowToken() != null) {
-                            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                        }
-                    }
-                    finish();
-                }
-            });
-        }
-        if (titleLeftDesc) {
-//            mJmui_title_left.setVisibility(View.VISIBLE);
-//            mJmui_title_left.setText(titleLeft);
-        }
-        menu_title_textview.setText(title);
-        if (save) {
-//            mJmui_commit_btn.setVisibility(View.VISIBLE);
-//            mJmui_commit_btn.setText(desc);
-        }
-
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (null != this.getCurrentFocus()) {
@@ -115,44 +83,9 @@ public class BaseActivity extends AppCompatActivity {
             SharePreferenceManager.setCachedAvatarPath(path);
             JMessageClient.logout();
         }
-        switch (reason) {
-//            case user_logout:
-//                View.OnClickListener listener = new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        switch (v.getId()) {
-//                            case R.id.jmui_cancel_btn:
-//                                Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
-//                                startActivity(intent);
-//                                break;
-//                            case R.id.jmui_commit_btn:
-//                                JMessageClient.login(SharePreferenceManager.getCachedUsername(), SharePreferenceManager.getCachedPsw(), new BasicCallback() {
-//                                    @Override
-//                                    public void gotResult(int responseCode, String responseMessage) {
-//                                        if (responseCode == 0) {
-//                                            Intent intent = new Intent(BaseActivity.this, MainActivity.class);
-//                                            startActivity(intent);
-//                                        }
-//                                    }
-//                                });
-//                                break;
-//                        }
-//                    }
-//                };
-//                dialog = DialogCreator.createLogoutStatusDialog(BaseActivity.this, "您的账号在其他设备上登陆", listener);
-//                dialog.getWindow().setLayout((int) (0.8 * mWidth), WindowManager.LayoutParams.WRAP_CONTENT);
-//                dialog.setCanceledOnTouchOutside(false);
-//                dialog.show();
-//                break;
-            case user_password_change:
-                Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
-                startActivity(intent);
-                break;
-        }
     }
     @Override
     public void onDestroy() {
-        //注销消息接收
         JMessageClient.unRegisterEventReceiver(this);
         if (dialog != null) {
             dialog.dismiss();

@@ -16,6 +16,7 @@ import itp341.liu.haomei.finalprojecthaomeiliu.application.JGApplication;
 import itp341.liu.haomei.finalprojecthaomeiliu.db.UserEntry;
 import itp341.liu.haomei.finalprojecthaomeiliu.activity.im.BaseActivity;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.SharePreferenceManager;
+import itp341.liu.haomei.finalprojecthaomeiliu.util.ToastUtil;
 import itp341.liu.haomei.finalprojecthaomeiliu.util.ViewDialog;
 
 public class RegisterActivity extends BaseActivity {
@@ -29,6 +30,11 @@ public class RegisterActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        mContext = this;
+
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        setTitle("Register");
 
         initView();
     }
@@ -39,7 +45,6 @@ public class RegisterActivity extends BaseActivity {
         buttonBack = findViewById(R.id.return_btn);
         SharePreferenceManager.setCachedFixProfileFlag(true);
 
-        buttonBack.setOnClickListener(listener);
         buttonDone.setOnClickListener(listener);
     }
 
@@ -47,22 +52,20 @@ public class RegisterActivity extends BaseActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.return_btn:
-                    finish();
-                    break;
                 case R.id.register_button:
                     final ViewDialog dialog = new ViewDialog(mContext);
                     dialog.showDialog();
 
                     final String userId = SharePreferenceManager.getRegistrName();
+                    Log.d("Register Activity", "username"+userId);
                     final String password = SharePreferenceManager.getRegistrPass();
                     SharePreferenceManager.setRegisterUsername(userId);
                     JMessageClient.login(userId, password, new BasicCallback() {
                         @Override
                         public void gotResult(int responseCode, String responseMessage) {
+                            dialog.hideDialog();
                             if (responseCode == 0) {
                                 Log.d("Register Activity", "ResponseCode == 0");
-                                dialog.hideDialog();
                                 JGApplication.isLogin = true;
                                 String username = JMessageClient.getMyInfo().getUserName();
                                 String appKey = JMessageClient.getMyInfo().getAppKey();
@@ -90,10 +93,19 @@ public class RegisterActivity extends BaseActivity {
                                     }
                                 });
                             }
+                            else{
+                                ToastUtil.shortToast(mContext, "Something went wrong...");
+                            }
                         }
                     });
                     break;
             }
         }
     };
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
+    }
 }

@@ -48,11 +48,6 @@
             android:name=".activity.map.MapsActivity"
             android:label="@string/title_activity_maps" />
 
-        <service
-            android:name=".activity.TrackingService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity android:name=".activity.map.MapActivity" />
         <activity android:name=".activity.im.UserInfoActivity" />
         <activity android:name=".activity.AddEventActivity" /> <!-- Global Settings for activeandroid -->
@@ -133,18 +128,18 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver> <!-- Required SDK核心功能 -->
+        </receiver> <!-- Required SDK core -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" /> <!-- Required since JCore 1.1.7. SDK 核心功能 -->
+            android:exported="false" /> <!-- Required since JCore 1.1.7. SDK core -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="itp341.liu.haomei.finalprojecthaomeiliu.DataProvider"
-            android:exported="false" /> <!-- Required since JMessage 2.7.0 SDK 核心功能 -->
+            android:exported="false" /> <!-- Required since JMessage 2.7.0 SDK core -->
         <provider
             android:name="cn.jpush.im.android.helpers.ipc.IMProvider"
             android:authorities="itp341.liu.haomei.finalprojecthaomeiliu.IMProvider"
-            android:exported="false" /> <!-- Required JMessage SDK核心功能 -->
+            android:exported="false" /> <!-- Required JMessage SDK core-->
         <receiver
             android:name="cn.jpush.im.android.helpers.IMReceiver"
             android:enabled="true"

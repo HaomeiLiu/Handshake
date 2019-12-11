@@ -59,6 +59,7 @@ public class ChatRoomAdapter extends BaseAdapter {
         ChatRoomInfo chatRoomInfo = mChatRoomInfoList.get(position);
         holder.tv_chatRoomName.setText(chatRoomInfo.getName());
         holder.tv_chatRoomContent.setText(chatRoomInfo.getDescription());
+        holder.iv_chatRoomAvatar.setImageResource(R.drawable.blank_group_icon);
 
 
         return convertView;
