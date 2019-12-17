@@ -6,7 +6,7 @@ An app to help people with social anxiety engaging in networking events.
 <img src="https://github.com/HaomeiLiu/Handshake/blob/master/github.handshake.store/ic_launcher-web.png" width="200">
 
 ### Rationale ###
-People with social anxiety always find it hard to enjoy a networking event. We hope that an online chat app can break the barrier and serve as a platform to help them establish a connection with other participants of the event.
+People with social anxiety always find it hard to fully enjoy a networking event. Comparing to face-to-face conversation, an anonymous chat online seems to be an easier way for them to start a conversation. We hope that an online chat app can break the barrier and serve as a platform to help them establish a connection with other participants in the event.
 
 ### APP DEMO ###
 - Login (Register/Use Facebook), browse through available events
